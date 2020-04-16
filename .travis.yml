@@ -15,10 +15,17 @@ script:
   - docker run -e CI=true travis-dev-build npm run test
 
 after_success:
-  - docker build -t travis-prod-build ./client
-  - docker build -t travis-prod-build ./server
-  - docker build -t travis-prod-build ./worker
-  - docker build -t travis-prod-build ./nginx
+  - docker build -t travis-prod-client ./client
+  - docker build -t travis-prod-server ./server
+  - docker build -t travis-prod-worker ./worker
+  - docker build -t travis-prod-nginx ./nginx
+  # log into Dockerhub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # push images to dockerhub
+  - docker push travis-prod-client
+  - docker push travis-prod-server
+  - docker push travis-prod-worker
+  - docker push travis-prod-nginx
   
 
 # deploy:
