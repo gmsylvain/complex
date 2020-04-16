@@ -1,0 +1,35 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  # Travis uses an older docker-composer (v1.4.2), we need to update it.
+  - docker-compose --version
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/1.25.5/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker  build -t travis-dev-build  -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true travis-dev-build npm run test
+
+after_success:
+  - docker build -t travis-prod-build ./client
+  - docker build -t travis-prod-build ./server
+  - docker build -t travis-prod-build ./worker
+  - docker build -t travis-prod-build ./nginx
+  
+
+# deploy:
+#   provider: elasticbeanstalk
+#   region: "us-east-1"
+#   app: "DockerReact"
+#   env: "Dockerreact-env"
+#   bucket_name: "elasticbeanstalk-us-east-1-263267561053"
+#   bucket_path: "DockerReact"
+#   access_key_id: "$AWS_ACCESS_KEY"
+#   secret_access_key: "$AWS_SECRET_KEY"
+#   on:
+#     branch: master
+
