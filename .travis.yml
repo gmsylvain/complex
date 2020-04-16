@@ -20,23 +20,11 @@ after_success:
   - docker build -t travis-prod-worker ./worker
   - docker build -t travis-prod-nginx ./nginx
   # log into Dockerhub
-  - echo '$DOCKER_PASSWORD' | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # push images to dockerhub
   - docker push travis-prod-client
   - docker push travis-prod-server
   - docker push travis-prod-worker
   - docker push travis-prod-nginx
   
-
-# deploy:
-#   provider: elasticbeanstalk
-#   region: "us-east-1"
-#   app: "DockerReact"
-#   env: "Dockerreact-env"
-#   bucket_name: "elasticbeanstalk-us-east-1-263267561053"
-#   bucket_path: "DockerReact"
-#   access_key_id: "$AWS_ACCESS_KEY"
-#   secret_access_key: "$AWS_SECRET_KEY"
-#   on:
-#     branch: master
 
