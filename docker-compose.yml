@@ -11,6 +11,7 @@ services:
     build:
       dockerfile: Dockerfile.dev
       context: ./nginx
+    image: 263267561053.dkr.ecr.us-east-1.amazonaws.com/nginx
     ports:
       - '3050:80'
     depends_on:
@@ -20,6 +21,7 @@ services:
     build:
       dockerfile: Dockerfile.dev
       context: ./server
+    image: 263267561053.dkr.ecr.us-east-1.amazonaws.com/api
     volumes:
       - /app/node_modules
       - ./server:/app
@@ -38,6 +40,7 @@ services:
     build:
       dockerfile: Dockerfile.dev
       context: ./client
+    image: 263267561053.dkr.ecr.us-east-1.amazonaws.com/client
     volumes:
       - /app/node_modules
       - ./client:/app
@@ -45,6 +48,7 @@ services:
     build:
       dockerfile: Dockerfile.dev
       context: ./worker
+    image: 263267561053.dkr.ecr.us-east-1.amazonaws.com/worker
     volumes:
       - /app/node_modules
       - ./worker:/app
