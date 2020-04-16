@@ -20,7 +20,7 @@ after_success:
   - docker build -t travis-prod-worker ./worker
   - docker build -t travis-prod-nginx ./nginx
   # log into Dockerhub
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo '$DOCKER_PASSWORD' | docker login -u "$DOCKER_ID" --password-stdin
   # push images to dockerhub
   - docker push travis-prod-client
   - docker push travis-prod-server
